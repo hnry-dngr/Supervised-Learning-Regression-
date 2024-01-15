@@ -49,14 +49,9 @@ dataset["Time"] = dataset["Time"].dt.date
 dataset.info()
 describe_data = dataset.describe()
 
-# Identifying Duplicate Records in a Pandas DataFrame and Counting
-duplicate = (dataset.duplicated().sum())
-# Removing Duplicate Data in a Pandas DataFrame
-dataset.drop_duplicates(inplace = True)
-
 # #ii Create a pandas profiling reports to gain insights into the dataset
-# profile_report = sv.analyze(dataset)
-# profile_report.show_html('profile_report.html')
+profile_report = sv.analyze(dataset)
+profile_report.show_html('profile_report.html')
 
 #iii Handle Missing and corrupted values
 missing = dataset.isnull().sum().sum() # counting the NAN
@@ -85,12 +80,11 @@ features = dataset[f_column]
 
 #3------------Split your dataset to training and test sets
 ds = dataset
-ds = dataset.drop("BS", axis=1)  # Features
-X = ds.drop("Time", axis=1)
+X = dataset.drop(["BS", "Time"], axis=1)  # Features
 y = dataset["BS"]  # Target variable
 
 # Splitting the data into training and testing sets (default is 75% train, 25% test)
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=10)
 
 
 #4 -----------Based on your data exploration phase select a ML regression algorithm and train it on the training set
